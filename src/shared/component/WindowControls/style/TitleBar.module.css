@@ -1,0 +1,62 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.5rem;
+  padding: 0 0.5rem; /* 버튼 영역을 고려해 좌우 패딩 약간 조절 */
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  -webkit-app-region: drag;
+}
+
+.titlelabel {
+  color: white;
+  font-size: 15px;
+  padding-left: 0.5rem; /* 제목 왼쪽에만 패딩 추가 */
+}
+
+.windowControls {
+  display: flex;
+  -webkit-app-region: no-drag;
+}
+
+/* ▼ 아이콘을 감싸는 버튼의 공통 스타일 */
+.controlButton {
+  /* 기본 버튼 스타일 제거 */
+  background: none;
+  border: none;
+  padding: 0;
+  
+  /* 아이콘을 가운데 정렬하기 위한 Flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* 클릭 영역 크기 지정 */
+  width: 36px;
+  height: 28px;
+  
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* 공통 호버 효과 */
+.controlButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 닫기 버튼만 특별히 빨간색 호버 효과 */
+.closeButton:hover {
+  background-color: #e81123;
+}
+
+/* 설정 버튼에만 오른쪽 여백 추가 */
+.settingsButton {
+  margin-right: 10px;
+}
+
+/* 아이콘 자체의 스타일은 간단하게 색상/크기만 지정 */
+.icon {
+  color: white; 
+  font-size: 16px;
+}

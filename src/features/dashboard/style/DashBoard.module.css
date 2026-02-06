@@ -1,0 +1,21 @@
+/* 전체 앱의 레이아웃 */
+.appLayout {
+  display: flex;
+  flex-direction: column; /* 자식(타이틀 바, 메인 콘텐츠)을 세로로 배치 */
+  height: 100vh; /* 화면 전체 높이 */
+  background-color: #18181b; /* 이미지 기준 어두운 배경색 */
+}
+
+/* 사이드바와 콘텐츠 영역을 감싸는 부모 */
+.mainContent {
+  display: flex; /* 자식(사이드바, 콘텐츠 영역)을 가로로 배치 */
+  flex-grow: 1; /* 타이틀 바를 제외한 모든 세로 공간을 차지 */
+  overflow: hidden; /* 자식 요소가 넘치는 것을 방지 */
+}
+
+/* 실제 내용이 표시될 오른쪽 메인 영역 */
+.contentArea {
+  flex-grow: 1; /* 사이드바를 제외한 모든 가로 공간을 차지 */
+  padding: 2rem; /* 콘텐츠 영역의 안쪽 여백 */
+  overflow-y: auto; /* 내용이 길어지면 여기에만 스크롤바 생성 */
+}
