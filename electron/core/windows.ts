@@ -1,10 +1,11 @@
 import { BrowserWindow } from "electron";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 // main.ts에 정의된 Vite 개발 서버 Url과 렌더러 빌드 경로
 import { VITE_DEV_SERVER_URL, RENDERER_DIST } from '../main';
 
-// 현재 파일의 디렉토리 경로를 계산, ESM 환경에서 __dirname을 구현
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+// fileURLToPath를 사용해야 Windows에서도 경로가 올바르게 처리됨
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 설정 창 인스턴스를 저장할 변수(싱글톤 패턴으로 창이 하나만 열리도록 관리)
 let settingsWin: BrowserWindow | null = null;

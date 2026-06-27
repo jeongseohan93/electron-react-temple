@@ -11,7 +11,9 @@ export const prisma = new PrismaClient({
     db: {
       // 'vite dev'로 실행 중일 때는(development), .env 파일의 DATABASE_URL을 사용하고,
       // 빌드된 앱을 실행할 때는(production), 위에서 만든 최종 경로(productionDbPath)를 사용합니다.
-      url: process.env.NODE_ENV === 'development'
+      // VITE_DEV_SERVER_URL은 vite-plugin-electron이 개발 모드에서만 주입하므로
+      // NODE_ENV보다 더 안정적으로 개발/프로덕션 환경을 구분할 수 있음
+      url: process.env.VITE_DEV_SERVER_URL
         ? process.env.DATABASE_URL
         : `file:${productionDbPath}`,
     },

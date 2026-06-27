@@ -1,10 +1,12 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import { createWindow } from './core/windows'; // 창 생성 함수
 import { registerFeatureHandlers } from './features/index'; // 기능별 IPC 핸들러 등록 함수
 
-// 현재 파일의 디렉토리 경로를 설정
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+// fileURLToPath를 사용해야 Windows에서도 경로가 올바르게 처리됨
+// (new URL(...).pathname 은 Windows에서 /C:/path 처럼 앞에 /가 붙어 오작동)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // --- 환경 변수 및 경로 설정 ---
 // 프로젝트의 루트 경로를 환경 변수에 저장합

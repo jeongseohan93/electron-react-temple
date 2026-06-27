@@ -1,15 +1,22 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.example.lostarkapi",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "Lostark API App",
   "directories": {
     "output": "release/${version}"
   },
   "files": [
     "dist",
-    "dist-electron"
+    "dist-electron",
+    "node_modules/.prisma/client/**/*",
+    "node_modules/@prisma/engines/**/*"
+  ],
+  "asarUnpack": [
+    "node_modules/@prisma/engines/**",
+    "node_modules/@prisma/client/**",
+    "node_modules/.prisma/client/**"
   ],
   "mac": {
     "target": [
