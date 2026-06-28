@@ -4,6 +4,7 @@ import { registerSettingsHandlers } from "./settings";
 import { registerLostArkApiHandlers } from './apiRequestMainPage';
 import { registerApiManagement } from './apiKeyManagement';
 import { registerMeetingNotesHandlers } from './meetingNotes';
+import { registerDiscordBotHandlers } from './discordBotHandlers';
 
 
 // 애플리케이션 모든 주요 기능 IPC 핸들러를 중앙에서 등록하는 함수
@@ -38,4 +39,5 @@ export const registerFeatureHandlers = (win: BrowserWindow): void => {
     registerLostArkApiHandlers();
 
     registerMeetingNotesHandlers();
+    registerDiscordBotHandlers(win);
 }

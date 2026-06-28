@@ -13,14 +13,18 @@
     "node_modules/.prisma/client/**/*",
     "node_modules/@prisma/engines/**/*",
     "node_modules/ffmpeg-static/**/*",
-    "node_modules/nodejs-whisper/**/*"
+    "node_modules/nodejs-whisper/**/*",
+    "node_modules/prism-media/**/*",
+    "node_modules/opusscript/**/*"
   ],
   "asarUnpack": [
     "node_modules/@prisma/engines/**",
     "node_modules/@prisma/client/**",
     "node_modules/.prisma/client/**",
     "node_modules/ffmpeg-static/**",
-    "node_modules/nodejs-whisper/**"
+    "node_modules/nodejs-whisper/**",
+    "node_modules/prism-media/**",
+    "node_modules/opusscript/**"
   ],
   "mac": {
     "target": [

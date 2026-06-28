@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import style from '../style/SideBar.module.css';
 import { FiMenu, FiHome, FiShoppingCart, FiRepeat, FiSearch, FiPackage, FiSettings, FiClipboard } from "react-icons/fi";
-import { FaLeaf } from 'react-icons/fa';
+import { FaLeaf, FaDiscord } from 'react-icons/fa';
 import { openSetting } from '../../../shared/api/IpcSetting';
 
 const getNavLinkClass = ({ isActive }: { isActive: boolean }) => isActive ? `${style.menuButton} ${style.active}` : style.menuButton;
@@ -58,6 +58,11 @@ const SideBar = () => {
           <NavLink to="/meeting" className={getNavLinkClass}>
             <FiClipboard className={style.icon} />
             <span className={style.iconLabel}>회의록</span>
+          </NavLink>
+
+          <NavLink to="/discord-bot" className={getNavLinkClass}>
+            <FaDiscord className={style.icon} />
+            <span className={style.iconLabel}>Discord 녹음</span>
           </NavLink>
 
         </div>

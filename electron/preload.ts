@@ -92,6 +92,28 @@ export const lostarkAPI = {
         ipcRenderer.invoke('ai:update-settings', patch),
     aiCheckOllama: () =>
         ipcRenderer.invoke('ai:check-ollama'),
+
+    // ── Discord 봇 ──────────────────────────────────────────────────────
+    discordConnect: (token: string) =>
+        ipcRenderer.invoke('discord:connect', token),
+    discordDisconnect: () =>
+        ipcRenderer.invoke('discord:disconnect'),
+    discordAutoConnect: () =>
+        ipcRenderer.invoke('discord:auto-connect'),
+    discordGetStatus: () =>
+        ipcRenderer.invoke('discord:get-status'),
+    discordGetGuilds: () =>
+        ipcRenderer.invoke('discord:get-guilds'),
+    discordGetChannels: (guildId: string) =>
+        ipcRenderer.invoke('discord:get-channels', { guildId }),
+    discordStartRecording: (guildId: string, channelId: string, meetingId: string) =>
+        ipcRenderer.invoke('discord:start-recording', { guildId, channelId, meetingId }),
+    discordStopRecording: (meetingId: string) =>
+        ipcRenderer.invoke('discord:stop-recording', { meetingId }),
+    discordOnStatusChange: (callback: (status: import('../src/types/electron').DiscordBotStatus) => void) => {
+        ipcRenderer.removeAllListeners('discord:status-change');
+        ipcRenderer.on('discord:status-change', (_event, status) => callback(status));
+    },
 }
 
 // contextBridge를 사용하여 위에서 정의한 lostarkAPI 객체를 Renderer Process의 'window' 객체에 안전하게 노출

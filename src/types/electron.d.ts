@@ -1,5 +1,25 @@
 import { LostArkEvent, LostarkNotice, CalendarResponse } from "../features/dashboard/pages/mainPage/types/Lostark.types";
 
+export interface DiscordGuild {
+    id: string;
+    name: string;
+}
+
+export interface DiscordChannel {
+    id: string;
+    name: string;
+    memberCount: number;
+}
+
+export interface DiscordBotStatus {
+    connected: boolean;
+    botName?: string;
+    recording: boolean;
+    channelName?: string;
+    guildName?: string;
+    hasToken?: boolean;
+}
+
 // ── 회의록 공통 타입 ────────────────────────────────────────────────────
 export interface Meeting {
     id: string;
@@ -72,6 +92,17 @@ export interface IElectronAPI {
     aiGetSettings: () => Promise<{ success: boolean; data?: LocalAISettings }>;
     aiUpdateSettings: (patch: Partial<LocalAISettings>) => Promise<{ success: boolean; data?: LocalAISettings }>;
     aiCheckOllama: () => Promise<{ success: boolean; models?: string[]; currentModel?: string; message?: string }>;
+
+    // ── Discord 봇 ────────────────────────────────────────────────────
+    discordConnect: (token: string) => Promise<{ success: boolean; botName?: string; message?: string }>;
+    discordDisconnect: () => Promise<{ success: boolean }>;
+    discordAutoConnect: () => Promise<{ success: boolean; botName?: string; message?: string }>;
+    discordGetStatus: () => Promise<DiscordBotStatus & { hasToken?: boolean }>;
+    discordGetGuilds: () => Promise<{ success: boolean; guilds?: DiscordGuild[]; message?: string }>;
+    discordGetChannels: (guildId: string) => Promise<{ success: boolean; channels?: DiscordChannel[]; message?: string }>;
+    discordStartRecording: (guildId: string, channelId: string, meetingId: string) => Promise<{ success: boolean; message?: string }>;
+    discordStopRecording: (meetingId: string) => Promise<{ success: boolean; audioPath?: string; message?: string }>;
+    discordOnStatusChange: (callback: (status: DiscordBotStatus) => void) => void;
 }
 
 export interface LocalAISettings {

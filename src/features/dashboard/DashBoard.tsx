@@ -5,6 +5,7 @@ import { useWindowSize } from '../../shared/hooks/useWindoResize';
 import MeetingListPage from '../meeting-notes/MeetingListPage';
 import MeetingDetailPage from '../meeting-notes/MeetingDetailPage';
 import RecordingPage from '../meeting-notes/RecordingPage';
+import DiscordBotPage from '../meeting-notes/DiscordBotPage';
 import style from './style/DashBoard.module.css';
 
 const DashBoard = () => {
@@ -19,6 +20,7 @@ const DashBoard = () => {
             <Route path="/meeting" element={<MeetingListPage />} />
             <Route path="/meeting/:id" element={<MeetingDetailPage />} />
             <Route path="/meeting/:id/record" element={<RecordingPage />} />
+            <Route path="/discord-bot" element={<DiscordBotPage />} />
           </Routes>
         </main>
       </div>
