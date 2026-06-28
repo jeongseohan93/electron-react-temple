@@ -1,0 +1,400 @@
+/* ── 목록 페이지 ── */
+.page {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.pageTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+.btnPrimary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: #4f8ef7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnPrimary:hover { background: #3a7ae0; }
+.btnPrimary:disabled { background: #555; cursor: not-allowed; }
+
+.btnSecondary {
+  padding: 8px 16px;
+  background: #2d2d2d;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnSecondary:hover { background: #3a3a3a; }
+
+.btnDanger {
+  padding: 7px 14px;
+  background: transparent;
+  color: #e05555;
+  border: 1px solid #e05555;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnDanger:hover { background: #e0555520; }
+
+/* ── 카드 그리드 ── */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.emptyState {
+  text-align: center;
+  color: #666;
+  padding: 60px 0;
+  font-size: 15px;
+}
+
+/* ── 회의 카드 ── */
+.card {
+  background: #1e1e2e;
+  border: 1px solid #2e2e3e;
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.1s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card:hover { border-color: #4f8ef7; transform: translateY(-2px); }
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardMeta {
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  gap: 12px;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.statusDraft     { background: #333; color: #aaa; }
+.statusRecorded  { background: #1a3a5c; color: #7ab4f5; }
+.statusProcessing{ background: #3a2a10; color: #f5c542; }
+.statusDone      { background: #1a3a1a; color: #5fcf5f; }
+.statusError     { background: #3a1a1a; color: #f55f5f; }
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ── 디테일 / 녹음 페이지 공통 ── */
+.detailPage {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 4px;
+}
+.backBtn:hover { color: #ccc; }
+
+.detailTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e0e0e0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  width: 100%;
+  padding: 4px 0;
+  outline: none;
+}
+.detailTitle:focus { border-bottom-color: #4f8ef7; }
+
+.metaRow {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 13px;
+  color: #888;
+  flex-wrap: wrap;
+}
+
+.participantChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  background: #2a2a3a;
+  border: 1px solid #3a3a4a;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: #aaa;
+}
+.chipInput {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.chipInput input {
+  background: #1a1a2a;
+  border: 1px solid #3a3a4a;
+  border-radius: 6px;
+  padding: 4px 10px;
+  color: #ccc;
+  font-size: 13px;
+  outline: none;
+  width: 160px;
+}
+.chipInput input:focus { border-color: #4f8ef7; }
+.chipRemove {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+}
+.chipRemove:hover { color: #e05555; }
+
+/* ── 탭 ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #2e2e3e;
+  gap: 0;
+}
+.tab {
+  padding: 9px 18px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.tab:hover { color: #ccc; }
+.tabActive {
+  color: #4f8ef7;
+  border-bottom-color: #4f8ef7;
+  font-weight: 600;
+}
+
+/* ── 텍스트 에디터 ── */
+.textarea {
+  width: 100%;
+  flex: 1;
+  min-height: 240px;
+  background: #1a1a2a;
+  border: 1px solid #2e2e3e;
+  border-radius: 10px;
+  padding: 16px;
+  color: #d0d0d0;
+  font-size: 14px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.textarea:focus { border-color: #4f8ef7; }
+
+/* ── 액션 버튼 바 ── */
+.actionBar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid #2e2e3e;
+}
+
+/* ── 녹음 컨트롤 ── */
+.recordingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 0;
+}
+
+.recordBtn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #4f8ef7;
+  background: #1e1e2e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  transition: background 0.2s, transform 0.1s;
+}
+.recordBtn:hover { background: #2a2a3e; transform: scale(1.05); }
+.recordBtn.recording {
+  border-color: #e05555;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 #e0555540; }
+  50% { box-shadow: 0 0 0 12px transparent; }
+}
+
+.recordingLabel {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.recordingTimer {
+  font-size: 36px;
+  font-weight: 700;
+  color: #e0e0e0;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordingDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #e05555;
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: blink 1s step-start infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── 모달 ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: #1e1e2e;
+  border: 1px solid #2e2e3e;
+  border-radius: 14px;
+  padding: 28px;
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modalTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0;
+}
+.input {
+  background: #1a1a2a;
+  border: 1px solid #2e2e3e;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #ccc;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input:focus { border-color: #4f8ef7; }
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ── 로딩 / 토스트 ── */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff40;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #2a2a3a;
+  border: 1px solid #3a3a4a;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 13px;
+  color: #ccc;
+  z-index: 2000;
+  animation: slideUp 0.3s ease;
+}
+.toastSuccess { border-color: #3a5a3a; background: #1a2a1a; color: #7adf7a; }
+.toastError   { border-color: #5a3a3a; background: #2a1a1a; color: #f07070; }
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}

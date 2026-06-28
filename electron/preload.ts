@@ -55,8 +55,35 @@ export const lostarkAPI = {
      */
     onMainProcessMessage: (callback: (message: MainProcessMessage) => void) => {
         ipcRenderer.on('main-process-message', (_event, message: MainProcessMessage) => callback(message));
-    }
-    
+    },
+
+    // ── 회의록 ─────────────────────────────────────────────────────────
+    meetingCreate: (payload: { title: string; participants: string[] }) =>
+        ipcRenderer.invoke('meeting:create', payload),
+    meetingList: () =>
+        ipcRenderer.invoke('meeting:list'),
+    meetingGet: (id: string) =>
+        ipcRenderer.invoke('meeting:get', { id }),
+    meetingUpdate: (id: string, data: Record<string, unknown>) =>
+        ipcRenderer.invoke('meeting:update', { id, data }),
+    meetingDelete: (id: string) =>
+        ipcRenderer.invoke('meeting:delete', { id }),
+    meetingSaveAudio: (id: string, audioBuffer: ArrayBuffer) =>
+        ipcRenderer.invoke('meeting:save-audio', { id, audioBuffer }),
+    meetingRunAIPipeline: (id: string) =>
+        ipcRenderer.invoke('meeting:run-ai-pipeline', { id }),
+    meetingCleanText: (id: string) =>
+        ipcRenderer.invoke('meeting:clean-text', { id }),
+    meetingSummarize: (id: string) =>
+        ipcRenderer.invoke('meeting:summarize', { id }),
+    meetingExportWord: (id: string) =>
+        ipcRenderer.invoke('meeting:export-word', { id }),
+    meetingExportMarkdown: (id: string) =>
+        ipcRenderer.invoke('meeting:export-markdown', { id }),
+    meetingGetObsidianPath: () =>
+        ipcRenderer.invoke('meeting:get-obsidian-path'),
+    meetingSetObsidianPath: () =>
+        ipcRenderer.invoke('meeting:set-obsidian-path'),
 }
 
 // contextBridge를 사용하여 위에서 정의한 lostarkAPI 객체를 Renderer Process의 'window' 객체에 안전하게 노출

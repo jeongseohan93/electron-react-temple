@@ -1,8 +1,9 @@
 import { BrowserWindow } from "electron";
-import { registerWindowControlsHandlers } from './windowController'; // 창 제어 핸들러
-import { registerSettingsHandlers } from "./settings"; // 설정 핸들러(API 키 관리(저장, 삭제, 체크), 설정 창 열기, 닫기, 삭제 시 설정 창 닫기)
+import { registerWindowControlsHandlers } from './windowController';
+import { registerSettingsHandlers } from "./settings";
 import { registerLostArkApiHandlers } from './apiRequestMainPage';
 import { registerApiManagement } from './apiKeyManagement';
+import { registerMeetingNotesHandlers } from './meetingNotes';
 
 
 // 애플리케이션 모든 주요 기능 IPC 핸들러를 중앙에서 등록하는 함수
@@ -35,4 +36,6 @@ export const registerFeatureHandlers = (win: BrowserWindow): void => {
         기능 : 공지사항, 이벤트, 켈린더 콘텐츠 정보 요청 처리, 즐겨찾기 아이템들 요청 처리
     */
     registerLostArkApiHandlers();
+
+    registerMeetingNotesHandlers();
 }
