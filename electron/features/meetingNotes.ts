@@ -3,13 +3,30 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import { app } from 'electron';
 import { prisma } from '../core/database';
-import { runFullPipeline, cleanTranscript, summarizeText } from '../core/aiPipeline';
-import { exportToWord, exportToMarkdown } from '../core/documentExporter';
+import {
+  runFullPipeline, cleanTranscript, summarizeText,
+  DEFAULT_AI_SETTINGS, LocalAISettings,
+} from '../core/aiPipeline';
+import { exportToMarkdown } from '../core/documentExporter';
 
 const AUDIO_DIR = path.join(app.getPath('userData'), 'meeting-audio');
 
 const ensureAudioDir = async () => {
   await fs.mkdir(AUDIO_DIR, { recursive: true });
+};
+
+/** DB에서 로컬 AI 설정 읽기 */
+const getAISettings = async (): Promise<LocalAISettings> => {
+  const [host, model, whisper] = await Promise.all([
+    prisma.settings.findUnique({ where: { key: 'ollama_host' } }),
+    prisma.settings.findUnique({ where: { key: 'ollama_model' } }),
+    prisma.settings.findUnique({ where: { key: 'whisper_model' } }),
+  ]);
+  return {
+    ollamaHost: host?.value ?? DEFAULT_AI_SETTINGS.ollamaHost,
+    ollamaModel: model?.value ?? DEFAULT_AI_SETTINGS.ollamaModel,
+    whisperModel: (whisper?.value ?? DEFAULT_AI_SETTINGS.whisperModel) as LocalAISettings['whisperModel'],
+  };
 };
 
 export const registerMeetingNotesHandlers = (): void => {
@@ -112,8 +129,8 @@ export const registerMeetingNotesHandlers = (): void => {
 
       await prisma.meeting.update({ where: { id }, data: { status: 'processing' } });
 
-      const apiKey = (await prisma.settings.findUnique({ where: { key: 'anthropic_api_key' } }))?.value;
-      const result = await runFullPipeline(meeting.audioPath, apiKey ?? undefined);
+      const aiSettings = await getAISettings();
+      const result = await runFullPipeline(meeting.audioPath, aiSettings);
 
       const updated = await prisma.meeting.update({
         where: { id },
@@ -138,8 +155,8 @@ export const registerMeetingNotesHandlers = (): void => {
       const meeting = await prisma.meeting.findUnique({ where: { id } });
       if (!meeting) return { success: false, message: '회의를 찾을 수 없습니다.' };
 
-      const apiKey = (await prisma.settings.findUnique({ where: { key: 'anthropic_api_key' } }))?.value;
-      const cleanedText = await cleanTranscript(meeting.rawTranscript, apiKey ?? undefined);
+      const aiSettings = await getAISettings();
+      const cleanedText = await cleanTranscript(meeting.rawTranscript, aiSettings);
 
       const updated = await prisma.meeting.update({ where: { id }, data: { cleanedText } });
       return { success: true, data: { ...updated, participants: JSON.parse(updated.participants) } };
@@ -155,9 +172,9 @@ export const registerMeetingNotesHandlers = (): void => {
       const meeting = await prisma.meeting.findUnique({ where: { id } });
       if (!meeting) return { success: false, message: '회의를 찾을 수 없습니다.' };
 
-      const apiKey = (await prisma.settings.findUnique({ where: { key: 'anthropic_api_key' } }))?.value;
+      const aiSettings = await getAISettings();
       const text = meeting.cleanedText || meeting.rawTranscript;
-      const summary = await summarizeText(text, apiKey ?? undefined);
+      const summary = await summarizeText(text, aiSettings);
 
       const updated = await prisma.meeting.update({ where: { id }, data: { summary } });
       return { success: true, data: { ...updated, participants: JSON.parse(updated.participants) } };
@@ -283,5 +300,42 @@ export const registerMeetingNotesHandlers = (): void => {
       create: { key: 'obsidian_vault_path', value: filePaths[0] },
     });
     return { success: true, path: filePaths[0] };
+  });
+
+  // ── 로컬 AI 설정 조회/수정 ────────────────────────────────────────────
+  ipcMain.handle('ai:get-settings', async () => {
+    const settings = await getAISettings();
+    return { success: true, data: settings };
+  });
+
+  ipcMain.handle('ai:update-settings', async (_, patch: Partial<LocalAISettings>) => {
+    const entries: [string, string][] = [];
+    if (patch.ollamaHost)  entries.push(['ollama_host',    patch.ollamaHost]);
+    if (patch.ollamaModel) entries.push(['ollama_model',   patch.ollamaModel]);
+    if (patch.whisperModel)entries.push(['whisper_model',  patch.whisperModel]);
+
+    await Promise.all(
+      entries.map(([key, value]) =>
+        prisma.settings.upsert({ where: { key }, update: { value }, create: { key, value } }),
+      ),
+    );
+    return { success: true, data: await getAISettings() };
+  });
+
+  // ── Ollama 연결 상태 확인 ─────────────────────────────────────────────
+  ipcMain.handle('ai:check-ollama', async () => {
+    try {
+      const settings = await getAISettings();
+      const { Ollama } = await import('ollama');
+      const ollama = new Ollama({ host: settings.ollamaHost });
+      const list = await ollama.list();
+      return {
+        success: true,
+        models: list.models.map((m: { name: string }) => m.name),
+        currentModel: settings.ollamaModel,
+      };
+    } catch {
+      return { success: false, message: 'Ollama에 연결할 수 없습니다. Ollama가 실행 중인지 확인하세요.' };
+    }
   });
 };

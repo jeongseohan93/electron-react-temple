@@ -84,6 +84,14 @@ export const lostarkAPI = {
         ipcRenderer.invoke('meeting:get-obsidian-path'),
     meetingSetObsidianPath: () =>
         ipcRenderer.invoke('meeting:set-obsidian-path'),
+
+    // ── 로컬 AI 설정 ────────────────────────────────────────────────────
+    aiGetSettings: () =>
+        ipcRenderer.invoke('ai:get-settings'),
+    aiUpdateSettings: (patch: Record<string, string>) =>
+        ipcRenderer.invoke('ai:update-settings', patch),
+    aiCheckOllama: () =>
+        ipcRenderer.invoke('ai:check-ollama'),
 }
 
 // contextBridge를 사용하여 위에서 정의한 lostarkAPI 객체를 Renderer Process의 'window' 객체에 안전하게 노출

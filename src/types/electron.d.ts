@@ -67,6 +67,17 @@ export interface IElectronAPI {
     meetingExportMarkdown: (id: string) => Promise<MeetingIpcResult<{ filePath: string }>>;
     meetingGetObsidianPath: () => Promise<{ success: boolean; path: string }>;
     meetingSetObsidianPath: () => Promise<{ success: boolean; path?: string; message?: string }>;
+
+    // ── 로컬 AI 설정 ─────────────────────────────────────────────────
+    aiGetSettings: () => Promise<{ success: boolean; data?: LocalAISettings }>;
+    aiUpdateSettings: (patch: Partial<LocalAISettings>) => Promise<{ success: boolean; data?: LocalAISettings }>;
+    aiCheckOllama: () => Promise<{ success: boolean; models?: string[]; currentModel?: string; message?: string }>;
+}
+
+export interface LocalAISettings {
+    ollamaHost: string;
+    ollamaModel: string;
+    whisperModel: 'tiny' | 'base' | 'small' | 'medium' | 'large';
 }
 
 /**

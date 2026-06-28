@@ -15,7 +15,13 @@ export default defineConfig({
         vite: {
           build: {
             rollupOptions: { 
-              external: ['@prisma/client'], // sqlite3를 외부 모듈로 지정
+              external: [
+                '@prisma/client',
+                'ollama',
+                'nodejs-whisper',
+                'fluent-ffmpeg',
+                'ffmpeg-static',
+              ],
             },
           },
         },
